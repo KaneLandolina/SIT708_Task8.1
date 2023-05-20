@@ -5,7 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import com.example.task81.databinding.ActivityPlaylistBinding;
 import com.google.firebase.auth.FirebaseAuth;
@@ -56,6 +58,16 @@ public class PlaylistActivity extends AppCompatActivity {
         binding.playlistRecyclerView.setLayoutManager(playlistLayoutManager);
 
         String id = firebaseAuth.getCurrentUser().getUid();
+
+        binding.logoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FirebaseAuth.getInstance().signOut();
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
 
         myRef.child(id).child("playlist").addValueEventListener(new ValueEventListener() {
             @Override
